@@ -115,9 +115,12 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const pos = getColRow(step.pos);
-      const desc = move
+      let desc = move
         ? `Go to move #${move} [${pos.col}-${pos.row}-${step.hand}]`
         : "Go to game start";
+      if (move === this.state.stepNumber) {
+        desc = <b>{desc}</b>;
+      }
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
