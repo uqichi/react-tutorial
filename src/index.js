@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
@@ -42,30 +42,24 @@ class Board extends React.Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        key={i}
       />
     );
   }
 
   render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+    let pos = 0;
+    let children = [];
+    for (let i = 0; i < 3; i++) {
+      let squares = [];
+      for (let j = 0; j < 3; j++) {
+        squares.push(this.renderSquare(pos++));
+      }
+      children.push(
+        React.createElement("div", { className: "board-row", key: i }, squares)
+      );
+    }
+    return React.createElement("div", null, children);
   }
 }
 
